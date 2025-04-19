@@ -6,6 +6,10 @@
 }
 
 @theme inline {
+  --color-pearl: #DBD1B5;
+  --color-sunset: #FBF0D2;
+  --color-lightblue: #6e9eaa;
+  --color-darkblue: #162a42;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);

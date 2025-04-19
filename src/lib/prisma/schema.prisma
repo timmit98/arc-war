@@ -1,0 +1,180 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DIRECT_URL")
+  schemas  = ["public"]
+}
+
+// Our custom characters table in the public schema
+model Character {
+  id          Int      @id @default(autoincrement())
+  name        String
+  class       String?
+  level       Int      @default(1)
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relation to Supabase auth.users
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@schema("public")
+}
+
+model User {
+  id               String          @id @default(uuid()) @db.Uuid
+  email            String?         @unique
+  displayname      String?         @db.VarChar(100)     // Optional display name
+  profileimageurl  String?         @db.Text             // Optional URL to profile image
+  userCampaigns    UserCampaign[] // Campaigns this user is part of
+  missionSignups   MissionSignup[] // Missions this user signed up for
+  createdCampaigns Campaign[]      @relation("CreatedCampaigns")
+  createdMissions  Mission[]       @relation("CreatedMissions")
+  Character        Character[]
+  joinRequests     JoinRequest[] // Join requests made by this user
+  missionInterests MissionInterest[] // Missions this user is interested in
+
+  @@schema("public")
+}
+
+model Campaign {
+  id            String         @id @default(uuid()) @db.Uuid
+  name          String
+  description   String?
+  createdById   String         @db.Uuid
+  createdBy     User           @relation("CreatedCampaigns", fields: [createdById], references: [id])
+  userCampaigns UserCampaign[]
+  missions      Mission[]
+  sessions      Session[]
+  createdAt     DateTime       @default(now())
+  joinRequests  JoinRequest[]
+
+  @@schema("public")
+}
+
+model UserCampaign {
+  userId     String   @db.Uuid
+  campaignId String   @db.Uuid
+  role       Role     @default(PLAYER)
+  joinedAt   DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id])
+  campaign Campaign @relation(fields: [campaignId], references: [id])
+
+  @@id([userId, campaignId])
+  @@schema("public")
+}
+
+model Mission {
+  id           String    @id @default(uuid()) @db.Uuid
+  name         String
+  description  String?
+  reward       String?
+  campaignId   String    @db.Uuid
+  createdById  String    @db.Uuid
+  maxPlayers   Int       @default(6)
+
+  campaign  Campaign        @relation(fields: [campaignId], references: [id])
+  createdBy User            @relation("CreatedMissions", fields: [createdById], references: [id])
+  signups   MissionSignup[]
+  sessions  Session[]
+  interests MissionInterest[] // Users interested in this mission
+  createdAt DateTime        @default(now())
+
+  @@schema("public")
+}
+
+model Session {
+  id          String    @id @default(uuid()) @db.Uuid
+  scheduledFor DateTime?
+  campaignId  String    @db.Uuid
+  missionId   String    @db.Uuid
+  status      SessionStatus @default(PLANNED)
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id])
+  mission  Mission  @relation(fields: [missionId], references: [id])
+
+  @@schema("public")
+}
+
+enum SessionStatus {
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+
+  @@schema("public")
+}
+
+model JoinRequest {
+  id         String        @id @default(uuid()) @db.Uuid
+  userId     String        @db.Uuid
+  campaignId String        @db.Uuid
+  status     RequestStatus @default(PENDING)
+  message    String? // optional message with request
+  createdAt  DateTime      @default(now())
+
+  user     User     @relation(fields: [userId], references: [id])
+  campaign Campaign @relation(fields: [campaignId], references: [id])
+
+  @@unique([userId, campaignId]) // prevent duplicate requests
+  @@schema("public")
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+
+  @@schema("public")
+}
+
+model MissionSignup {
+  userId     String   @db.Uuid
+  missionId  String   @db.Uuid
+  signedUpAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  mission Mission @relation(fields: [missionId], references: [id])
+
+  @@id([userId, missionId])
+  @@schema("public")
+}
+
+enum Role {
+  PLAYER
+  DM
+
+  @@schema("public")
+}
+
+model MissionInterest {
+  id         String   @db.Uuid
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String   @db.Uuid
+  mission    Mission  @relation(fields: [missionId], references: [id])
+  missionId  String   @db.Uuid
+  status     InterestStatus
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, missionId]) // Prevent duplicates
+  @@schema("public")
+}
+
+enum InterestStatus {
+  INTERESTED
+  NOT_INTERESTED
+  COMMITTED
+
+  @@schema("public")
+}
