@@ -3,8 +3,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Button } from 'react-aria-components';
-import Header from "@/components/header";
 
 export default function Home() {
   const router = useRouter();

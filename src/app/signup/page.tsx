@@ -1,6 +1,4 @@
-import { login } from '@/app/login/actions'
 import Image from "next/image";
-import Link from 'next/link';
 import { signup } from './action';
 
 export default function SignUpPage() {

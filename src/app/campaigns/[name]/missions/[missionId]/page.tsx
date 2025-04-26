@@ -39,7 +39,7 @@ interface MissionData {
 }
 
 export default function MissionPage() {
-  const params = useParams();
+  const params = useParams<{ name: string; missionId: string }>();
   const [missionData, setMissionData] = useState<MissionData | null>(null);
   const [loading, setLoading] = useState(true);
 

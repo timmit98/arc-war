@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { createServerClient } from '@supabase/ssr';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(
@@ -44,7 +44,7 @@ export async function POST(
       return NextResponse.json({ error: 'Campaign not found or unauthorized' }, { status: 404 });
     }
 
-    const { name, description, scheduledFor } = await req.json();
+    const { name, description } = await req.json();
 
     const mission = await prisma.mission.create({
       data: {

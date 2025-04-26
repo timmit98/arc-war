@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { createServerClient } from '@supabase/ssr';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(req: Request) {

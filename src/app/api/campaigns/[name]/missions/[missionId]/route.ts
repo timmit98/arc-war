@@ -1,11 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { prisma } from '@/lib/prisma';
 
+
 export async function GET(
-  request: Request,
-  { params }: { params: { name: string; missionId: string } }
+  request: NextRequest,
+  context: Promise<{ params: { name: string; missionId: string } }>
 ) {
+  const { params } = await context;
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -30,9 +32,9 @@ export async function GET(
   try {
     const mission = await prisma.mission.findFirst({
       where: {
-        id: params.missionId,
+        id: await params?.missionId,
         campaign: {
-          name: params.name,
+          name: await params?.name,
           userCampaigns: {
             some: {
               userId: user.id
@@ -53,7 +55,8 @@ export async function GET(
               select: {
                 id: true,
                 email: true,
-                displayname: true
+                displayname: true,
+                profileimageurl: true
               }
             }
           }
@@ -64,7 +67,8 @@ export async function GET(
               select: {
                 id: true,
                 email: true,
-                displayname: true
+                displayname: true,
+                profileimageurl: true
               }
             }
           }
