@@ -7,9 +7,11 @@
 
 @theme inline {
   --color-pearl: #DBD1B5;
-  --color-sunset: #FBF0D2;
-  --color-lightblue: #6e9eaa;
-  --color-darkblue: #162a42;
+  --color-storm-grey-dark: #5C5C5C;
+  --color-lightblue: #3478A5;
+  --color-darkblue: #182A3B;
+  --color-text-light: #FBF0D2;
+  --color-text-dark: #000000;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);

@@ -65,7 +65,7 @@ export default function MissionPage() {
   const { mission, counts, players } = missionData;
 
   return (
-    <div className='bg-sunset'>
+    <div className='bg-storm-grey-dark'>
       <Header />
       <div className="p-8">
         <div className="mb-4">

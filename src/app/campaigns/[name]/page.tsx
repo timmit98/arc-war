@@ -98,7 +98,7 @@ export default function CampaignPage() {
   const isDM = campaign.userCampaigns?.some(uc => uc.role === 'DM');
 
   return (
-    <div className='bg-sunset'>
+    <div className='bg-storm-grey-dark'>
       <Header />
       <div className="p-8">
         <h1 className="text-3xl font-bold mb-4">{campaign.name}</h1>

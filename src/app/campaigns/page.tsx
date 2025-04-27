@@ -53,9 +53,9 @@ export default function CampaingsPage() {
   };
 
   return (
-    <div className='bg-sunset'>
+    <div className='bg-storm-grey-dark'>
       <Header />
-        <form onSubmit={handleCreateCampaign} className='bg-sunset p-8 rounded-lg'>
+        <form onSubmit={handleCreateCampaign} className='bg-storm-grey-dark p-8 rounded-lg'>
           <div>
             <h2 className="text-xl font-semibold mb-4">Your Campaigns</h2>
             <div className="space-y-4">
