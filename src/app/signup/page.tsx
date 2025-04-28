@@ -22,11 +22,11 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className='bg-storm-grey-dark flex'>
-        <div className='bg-storm-grey-dark min-h-screen flex flex-col w-[40%]'>
-          <h1 className="text-text-light text-4xl ml-16 mt-12 text-left font-bold font-mono">Lets get you signed up!</h1>
+    <div className='bg-storm-grey-dark flex flex-col md:flex-row'>
+        <div className='bg-storm-grey-dark min-h-screen flex flex-col w-full md:w-[40%]'>
+          <h1 className="text-text-light text-4xl ml-4 md:ml-16 mt-12 text-left font-bold font-mono">Lets get you signed up!</h1>
             <form onSubmit={handleSubmit} className='flex items-center justify-center flex-1'>
-              <div className="sm:shadow-xl items-center px-8 pb-8 pt-12 sm:bg-darkblue rounded-xl space-y-12 my-auto w-md">
+              <div className="sm:shadow-xl items-center px-8 pb-8 pt-12 sm:bg-darkblue rounded-xl space-y-12 my-auto w-full max-w-md mx-4">
                 <h1 className="text-text-light text-4xl text-center font-bold font-mono">All we need to get started with!</h1>
                 <div className='flex flex-col gap-4'>
                   <label className='text-text-light' htmlFor="email">Email:</label>
@@ -48,7 +48,7 @@ export default function SignUpPage() {
               </div>
             </form>    
         </div>
-        <div className='relative min-h-screen w-[65%]'>
+        <div className='relative hidden md:block min-h-screen md:w-[65%]'>
             <Image
             src="/background.png"
             className="absolute inset-0 object-cover h-screen"

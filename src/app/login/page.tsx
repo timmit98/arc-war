@@ -23,8 +23,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className='bg-storm-grey-dark flex'>
-        <div className='bg-storm-grey-dark min-h-screen flex flex-col w-[40%]'>
+    <div className='bg-storm-grey-dark flex flex-col md:flex-row'>
+        <div className='bg-storm-grey-dark min-h-screen flex flex-col w-full md:w-[40%]'>
           <h1 className="text-text-light text-4xl ml-16 mt-12 text-left font-bold font-mono">Join the Party!</h1>
             <form onSubmit={handleSubmit} className='flex items-center justify-center flex-1'>
               <div className="sm:shadow-xl items-center px-8 pb-8 pt-12 sm:bg-darkblue rounded-xl space-y-12 my-auto min-w-md">
@@ -46,7 +46,7 @@ export default function LoginPage() {
               </div>
             </form>    
         </div>
-        <div className='relative min-h-screen w-[65%]'>
+        <div className='relative min-h-screen md:w-[65%]'>
           <img
             src="/background.png"
             alt="Background image"
