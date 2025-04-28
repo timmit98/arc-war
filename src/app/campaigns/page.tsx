@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Header from '@/components/header';
-
+import Spinner from '@/components/loadingSpinner';
 interface Campaign {
   id: string;
   name: string;
@@ -14,6 +13,8 @@ export default function CampaingsPage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loadingCampaignId, setLoadingCampaignId] = useState<string | null>(null);
+  
 
   useEffect(() => {
     const fetchCampaigns = async () => {
@@ -60,42 +61,51 @@ export default function CampaingsPage() {
             <div>
               <h2 className="text-xl text-text-light font-semibold mb-4">Your Campaigns</h2>
               <div className="space-y-4">
-                {campaigns?.map(campaign => (
-                  <Link 
-                    key={campaign.id} 
-                    href={`/campaigns/${encodeURIComponent(campaign.name)}`}
-                    className="block p-4 border rounded-lg shadow hover:bg-darkblue transition-colors"
-                  >
-                    <h3 className="font-medium text-text-light">{campaign.name}</h3>
-                    {campaign.description && (
-                      <p className="text-sm text-text-light">{campaign.description}</p>
-                    )}
-                  </Link>
-                ))}
+                {campaigns?.map(campaign => {
+                  return (
+                    <Link 
+                      key={campaign.id} 
+                      href={`/campaigns/${encodeURIComponent(campaign.name)}`}
+                      className="block p-4 border rounded-lg shadow hover:bg-darkblue transition-colors"
+                      onClick={() => setLoadingCampaignId(campaign.id)}
+                    >
+                      {loadingCampaignId === campaign.id ? (
+                        <div className="flex justify-center">
+                          <Spinner />
+                        </div>
+                      ) : (
+                        <>
+                          <h3 className="font-medium text-text-light">{campaign.name}</h3>
+                          {campaign.description && (
+                            <p className="text-sm text-text-light">{campaign.description}</p>
+                          )}
+                        </>
+                      )}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
             <h1 className='text-2xl text-text-light font-bold mt-8'>Create a new campaign</h1>
             <div className='mt-4 flex flex-col lg:flex-row justify-between gap-8'>
               <div className='w-full lg:w-1/2'>
-                <label htmlFor='name' className='block text-sm font-medium text-text-light'>
-                  Name
-                </label>
                 <input
                   type='text'
                   id='name'
                   required
                   minLength={1}
-                  className='mt-1 block w-full border rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                  placeholder='Name'
+                  className='mt-1 p-4 block w-full border border-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-text-light bg-storm-grey-dark'
                 />
                 {error && (
-                  <p className="mt-2 text-sm text-red-600">{error}</p>
+                  <p className="text-sm text-red-600">{error}</p>
                 )}
               </div>
               <div className='w-full lg:w-1/2'>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`mt-4 w-full bg-indigo-600 py-2 px-4 text-sm font-medium text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
+                  className={`mt-1 p-4 w-full bg-indigo-600 text-sm font-medium text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
                     isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                 >
