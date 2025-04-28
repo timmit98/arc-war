@@ -8,10 +8,10 @@ export default function LoginPage() {
           <h1 className="text-text-light text-4xl ml-16 mt-12 text-left font-bold font-mono">Join the Party!</h1>
             <form className='flex items-center justify-center flex-1'>
               <div className="sm:shadow-xl items-center px-8 pb-8 pt-12 sm:bg-darkblue rounded-xl space-y-12 my-auto min-w-md">
-                <h1 className="text-text-light text-4xl text-center font-bold font-mono">Login or Join up</h1>
+                <h1 className="text-text-light text-4xl text-center font-bold font-mono">Login</h1>
                 <div className='flex flex-col gap-4'>
                   <label className='text-text-light' htmlFor="email">Email:</label>
-                  <input className="border-2 text-storm-grey-dark border-gray-300 rounded-md p-2" id="email" name="email" type="email" required/>
+                  <input className="border-2 text-text-light border-gray-300 rounded-md p-2" id="email" name="email" type="email" required/>
                   <label className='text-text-light' htmlFor="password">Password:</label>
                   <input className="border-2 text-text-light border-gray-300 rounded-md p-2" id="password" name="password" type="password" required/>
                   <button className='bg-lightblue text-text-light rounded-md p-2' formAction={login}>Log in</button>

@@ -1,12 +1,31 @@
-import Image from "next/image";
-import { signup } from './action';
+'use client'
 
+import Image from "next/image";
+import { useState } from "react";
+import Spinner from "@/components/loadingSpinner";
 export default function SignUpPage() {
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+    const emailValue = formData.get("email") as string;
+    setEmail(emailValue);
+
+    setTimeout(() => {
+      setLoading(false);
+      alert(`An email has been sent to ${emailValue}`);
+    }, 1000);
+  };
+
   return (
     <div className='bg-storm-grey-dark flex'>
         <div className='bg-storm-grey-dark min-h-screen flex flex-col w-[40%]'>
           <h1 className="text-text-light text-4xl ml-16 mt-12 text-left font-bold font-mono">Lets get you signed up!</h1>
-            <form action={signup} className='flex items-center justify-center flex-1'>
+            <form onSubmit={handleSubmit} className='flex items-center justify-center flex-1'>
               <div className="sm:shadow-xl items-center px-8 pb-8 pt-12 sm:bg-darkblue rounded-xl space-y-12 my-auto w-md">
                 <h1 className="text-text-light text-4xl text-center font-bold font-mono">All we need to get started with!</h1>
                 <div className='flex flex-col gap-4'>
@@ -18,7 +37,13 @@ export default function SignUpPage() {
                   <input className="border-2 text-text-light border-gray-300 rounded-md p-2" id="password" name="password" type="password" required/>
                   <label className='text-text-light' htmlFor="confirmPassword">Confirm Password:</label>
                   <input className="border-2 text-text-light border-gray-300 rounded-md p-2" id="confirmPassword" name="confirmPassword" type="password" required/>
-                  <button className='bg-lightblue text-text-light rounded-md p-2' type="submit">Sign Up</button>
+                  <button
+                    className='bg-lightblue text-text-light rounded-md p-2 flex items-center justify-center'
+                    type="submit"
+                    disabled={loading}
+                  >
+                    {loading ? <Spinner /> : "Sign Up"}
+                  </button>
                 </div>  
               </div>
             </form>    
