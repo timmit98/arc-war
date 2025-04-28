@@ -68,6 +68,9 @@ export async function GET(
           }
         },
         userCampaigns: {
+          where: {
+            userId: user.id
+          },
           select: {
             role: true
           }
