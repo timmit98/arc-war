@@ -3,12 +3,10 @@
 import { login } from '@/app/login/actions'
 import Link from 'next/link';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Spinner from '@/components/loadingSpinner';
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
