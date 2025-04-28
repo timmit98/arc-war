@@ -65,8 +65,7 @@ export default function MissionPage() {
   const { mission, counts, players } = missionData;
 
   return (
-    <div className='bg-storm-grey-dark'>
-      <Header />
+    <div className='bg-storm-grey-dark h-screen'>
       <div className="p-8">
         <div className="mb-4">
           <Link 
@@ -76,29 +75,29 @@ export default function MissionPage() {
             Back to Campaign
           </Link>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h1 className="text-3xl font-bold mb-4">{mission.name}</h1>
+        <div className="bg-darkblue p-6 rounded-lg shadow-md">
+          <h1 className="text-3xl font-bold mb-4 text-text-light">{mission.name}</h1>
           {mission.description && (
             <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-2">Description</h2>
-              <p className="text-gray-700">{mission.description}</p>
+              <h2 className="text-xl font-semibold text-text-light mb-2">Description</h2>
+              <p className="text-text-light">{mission.description}</p>
             </div>
           )}
           {mission.reward && (
             <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-2">Reward</h2>
-              <p className="text-gray-700">{mission.reward}</p>
+              <h2 className="text-xl text-text-light font-semibold mb-2">Reward</h2>
+              <p className="text-text-light">{mission.reward}</p>
             </div>
           )}
           <div className="mb-6">
-            <h2 className="text-xl font-semibold mb-2">Details</h2>
-            <p className="text-gray-700">Maximum Players: {mission.maxPlayers}</p>
+            <h2 className="text-xl text-text-light font-semibold mb-2">Details</h2>
+            <p className="text-text-light">Maximum Players: {mission.maxPlayers}</p>
           </div>
           <div className="mb-6">
-            <h2 className="text-xl font-semibold mb-2">Players</h2>
+            <h2 className="text-xl font-semibold text-text-light mb-2">Players</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="p-4 border rounded-lg">
-                <h3 className="font-semibold mb-2">Committed ({counts.committed})</h3>
+                <h3 className="font-semibold text-text-light mb-2">Committed ({counts.committed})</h3>
                 <ul className="space-y-1">
                   {players.committed.map(player => (
                     <li key={player.id} className="text-sm">
@@ -108,7 +107,7 @@ export default function MissionPage() {
                 </ul>
               </div>
               <div className="p-4 border rounded-lg">
-                <h3 className="font-semibold mb-2">Interested ({counts.interested})</h3>
+                <h3 className="font-semibold text-text-light mb-2">Interested ({counts.interested})</h3>
                 <ul className="space-y-1">
                   {players.interested.map(player => (
                     <li key={player.id} className="text-sm">

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import Header from '@/components/header';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -98,17 +97,16 @@ export default function CampaignPage() {
   const isDM = campaign.userCampaigns?.some(uc => uc.role === 'DM');
 
   return (
-    <div className='bg-storm-grey-dark'>
-      <Header />
+    <div className='bg-storm-grey-dark h-screen'>
       <div className="p-8">
-        <h1 className="text-3xl font-bold mb-4">{campaign.name}</h1>
+        <h1 className="text-3xl text-text-light font-bold mb-4">{campaign.name}</h1>
         {campaign.description && (
-          <p className="text-gray-600 mb-8">{campaign.description}</p>
+          <p className="text-text-light mb-8">{campaign.description}</p>
         )}
         
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-semibold">Missions</h2>
+            <h2 className="text-2xl text-text-light font-semibold">Missions</h2>
             {isDM && (
               <button 
                 onClick={() => setShowMissionForm(!showMissionForm)}
@@ -122,7 +120,7 @@ export default function CampaignPage() {
           {showMissionForm && (
             <form onSubmit={handleCreateMission} className="p-4 border rounded-lg space-y-4">
               <div>
-                <label htmlFor="missionName" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="missionName" className="block text-sm font-medium text-text-light">
                   Mission Name
                 </label>
                 <input
@@ -130,19 +128,19 @@ export default function CampaignPage() {
                   id="missionName"
                   value={newMission.name}
                   onChange={(e) => setNewMission({ ...newMission, name: e.target.value })}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md text-text-light border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   required
                 />
               </div>
               <div>
-                <label htmlFor="missionDescription" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="missionDescription" className="block text-sm font-medium text-text-light">
                   Description
                 </label>
                 <textarea
                   id="missionDescription"
                   value={newMission.description}
                   onChange={(e) => setNewMission({ ...newMission, description: e.target.value })}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full text-text-lightrounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   rows={3}
                 />
               </div>
@@ -172,13 +170,13 @@ export default function CampaignPage() {
             <Link 
               key={mission.id} 
               href={`/campaigns/${params.name}/missions/${mission.id}`}
-              className="block p-4 border rounded-lg shadow hover:bg-gray-50 transition-colors"
+              className="block p-4 border rounded-lg shadow hover:bg-darkblue transition-colors"
             >
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="font-medium">{mission.name}</h3>
+                  <h3 className="font-medium text-text-light">{mission.name}</h3>
                   {mission.description && (
-                    <p className="text-sm text-gray-600">{mission.description}</p>
+                    <p className="text-sm text-text-light">{mission.description}</p>
                   )}
                 </div>
                 <div className="flex -space-x-2">
@@ -193,7 +191,7 @@ export default function CampaignPage() {
                         />
                       ) : (
                         <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-text-light">
                             {(player.displayname || player.email)[0].toUpperCase()}
                           </span>
                         </div>
@@ -220,7 +218,7 @@ export default function CampaignPage() {
                   ))}
                 </div>
               </div>
-              <div className="mt-2 text-sm text-gray-500">
+              <div className="mt-2 text-sm text-text-light">
                 {mission.counts.committed} committed • {mission.counts.interested} interested
               </div>
             </Link>

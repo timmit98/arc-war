@@ -41,7 +41,6 @@ export default function CampaingsPage() {
 
     try {
       await createCampaign(name);
-      // Clear the input and refresh the campaigns list
       nameInput.value = '';
       const res = await fetch('/api/campaigns');
       const data = await res.json();
@@ -61,29 +60,35 @@ export default function CampaingsPage() {
             <div>
               <h2 className="text-xl text-text-light font-semibold mb-4">Your Campaigns</h2>
               <div className="space-y-4">
-                {campaigns?.map(campaign => {
-                  return (
-                    <Link 
-                      key={campaign.id} 
-                      href={`/campaigns/${encodeURIComponent(campaign.name)}`}
-                      className="block p-4 border rounded-lg shadow hover:bg-darkblue transition-colors"
-                      onClick={() => setLoadingCampaignId(campaign.id)}
-                    >
-                      {loadingCampaignId === campaign.id ? (
-                        <div className="flex justify-center">
-                          <Spinner />
-                        </div>
-                      ) : (
-                        <>
-                          <h3 className="font-medium text-text-light">{campaign.name}</h3>
-                          {campaign.description && (
-                            <p className="text-sm text-text-light">{campaign.description}</p>
-                          )}
-                        </>
-                      )}
-                    </Link>
-                  );
-                })}
+                {campaigns.length === 0 ? (
+                  <div className="flex justify-center p-4">
+                    <Spinner />
+                  </div>
+                ) : (
+                  campaigns.map(campaign => {
+                    return (
+                      <Link 
+                        key={campaign.id} 
+                        href={`/campaigns/${encodeURIComponent(campaign.name)}`}
+                        className="block p-4 border rounded-lg shadow hover:bg-darkblue transition-colors"
+                        onClick={() => setLoadingCampaignId(campaign.id)}
+                      >
+                        {loadingCampaignId === campaign.id ? (
+                          <div className="flex justify-center">
+                            <Spinner />
+                          </div>
+                        ) : (
+                          <>
+                            <h3 className="font-medium text-text-light">{campaign.name}</h3>
+                            {campaign.description && (
+                              <p className="text-sm text-text-light">{campaign.description}</p>
+                            )}
+                          </>
+                        )}
+                      </Link>
+                    );
+                  })
+                )}
               </div>
             </div>
             <h1 className='text-2xl text-text-light font-bold mt-8'>Create a new campaign</h1>
