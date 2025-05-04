@@ -3,22 +3,36 @@
 import Image from "next/image";
 import { useState } from "react";
 import Spinner from "@/components/loadingSpinner";
+import { signup } from "./action";
+
 export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
 
-    const formData = new FormData(e.currentTarget);
-    const emailValue = formData.get("email") as string;
-    setEmail(emailValue);
+    try {
+      const formData = new FormData(e.currentTarget);
+      const email = formData.get("email") as string;
+      const password = formData.get("password") as string;
+      const confirmPassword = formData.get("confirmPassword") as string;
 
-    setTimeout(() => {
+      if (password !== confirmPassword) {
+        setError("Passwords do not match");
+        return;
+      }
+
+      await signup(formData);
+      alert(`An email has been sent to ${email}`);
+    } catch (error) {
+      console.error('Signup error:', error);
+      setError('Failed to create account. Please try again.');
+    } finally {
       setLoading(false);
-      alert(`An email has been sent to ${emailValue}`);
-    }, 1000);
+    }
   };
 
   return (
@@ -37,6 +51,9 @@ export default function SignUpPage() {
                   <input className="border-2 text-text-light border-gray-300 rounded-md p-2" id="password" name="password" type="password" required/>
                   <label className='text-text-light' htmlFor="confirmPassword">Confirm Password:</label>
                   <input className="border-2 text-text-light border-gray-300 rounded-md p-2" id="confirmPassword" name="confirmPassword" type="password" required/>
+                  {error && (
+                    <p className="text-red-500 text-sm">{error}</p>
+                  )}
                   <button
                     className='bg-lightblue text-text-light rounded-md p-2 flex items-center justify-center'
                     type="submit"
