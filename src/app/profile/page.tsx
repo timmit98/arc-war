@@ -6,6 +6,7 @@ import { createClient } from '../../utils/supabase/client'
 export default function SettingsPage() {
   const [displayName, setDisplayName] = useState('')
   const [profileImage, setProfileImage] = useState<File | null>(null)
+  const [profileImageUrl, setProfileImageUrl] = useState<string>('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -26,7 +27,6 @@ export default function SettingsPage() {
           return
         }
 
-        // Fetch user profile from your API
         const response = await fetch(`/api/users/${user.id}`)
         if (!response.ok) {
           throw new Error('Failed to fetch user profile')
@@ -35,6 +35,7 @@ export default function SettingsPage() {
 
         if (profile) {
           setDisplayName(profile.displayname || '')
+          setProfileImageUrl(profile.profileimageurl || '')
         }
       } catch (err) {
         console.error('Unexpected error:', err)
@@ -116,18 +117,33 @@ export default function SettingsPage() {
 
   return (
     <div className='bg-storm-grey-dark flex flex-col lg:flex-row'>
-        <div className='bg-storm-grey-dark min-h-screen flex flex-col w-full lg:w-[40%]'>
-        <h2>Edit Profile</h2>
-        <input
+        <div className='bg-storm-grey-dark h-screen flex flex-col w-full lg:w-[40%] justify-center items-center space-y-5 m-t-[30%]'>
+        <h2 className='text-text-light text-2xl font-bold'>Edit Profile</h2>
+        <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-lightblue mb-4">
+          <img
+            src={profileImageUrl || '/default-avatar.jpg'}
+            alt="Profile"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div>
+          <p className='text-text-light text-l'>Display Name</p>
+          <input
             type="text"
             placeholder="Display Name"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
+            className='block text-text-light rounded-md p-2 border-2'
         />
-        <input
-            type="file"
-            onChange={(e) => setProfileImage(e.target.files?.[0] ?? null)}
-        />
+        </div>
+        <div>
+          <p className='text-text-light text-l'>Profile Image</p>
+          <input
+              type="file"
+              onChange={(e) => setProfileImage(e.target.files?.[0] ?? null)}
+              className='text-text-light rounded-md p-2 border-2 file:bg-darkblue file:rounded-md file:text-text-light hover:cursor-pointer hover:file:cursor-pointer'
+          />
+        </div>
         <button className='bg-lightblue text-text-light rounded-md p-2 flex items-center justify-center' onClick={handleProfileUpdate}>Save Profile</button>
         </div>
         <div className='relative min-h-screen md:w-[65%]'>
